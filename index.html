@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>興嘉國小｜家長入班晨讀打卡系統</title>
+<meta name="theme-color" content="#0f9d75">
+<style>
+:root{--green:#0f9d75;--green2:#11b981;--mint:#effbf6;--ink:#243746;--muted:#72808d;--line:#dfe7e4;--bg:#f3fbf7;--red:#dc4c5b;--yellow:#ffbd2e;--shadow:0 10px 30px rgba(31,75,60,.10)}
+*{box-sizing:border-box} body{margin:0;background:linear-gradient(180deg,#ebfbf4,#f9fcfb 45%,#eef9f4);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC",Arial,sans-serif;color:var(--ink)}
+.wrap{width:min(1080px,100%);margin:auto;padding:12px}.hero{border-radius:24px 24px 0 0;overflow:hidden;box-shadow:var(--shadow);background:#fff}.hero img{display:block;width:100%;height:auto;max-width:100%}
+.tabs{display:grid;grid-template-columns:repeat(3,1fr);background:#fff;border-radius:0 0 20px 20px;box-shadow:var(--shadow);overflow:hidden;margin-bottom:18px}.tab{padding:16px 10px;border:0;background:#fff;font-size:18px;font-weight:800;color:#65717d;cursor:pointer;border-bottom:4px solid transparent}.tab.active{color:var(--green);border-bottom-color:var(--green)}.tab small{display:block;font-size:12px;margin-top:3px;font-weight:700}
+.panel{display:none}.panel.active{display:block}.card{background:#fff;border:1px solid #edf1ef;border-radius:18px;padding:24px;box-shadow:var(--shadow);margin-bottom:16px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.full{grid-column:1/-1}.field label{display:block;font-weight:800;margin-bottom:8px}.req{color:var(--red)} input,textarea,select{width:100%;font:inherit;border:1.5px solid #d6dfdc;border-radius:12px;padding:13px 14px;background:#fff;outline:none}input:focus,textarea:focus,select:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(15,157,117,.12)}textarea{min-height:110px;resize:vertical}.stars{display:flex;gap:10px}.star{font-size:40px;cursor:pointer;color:#cbd3d8;line-height:1}.star.on{color:var(--yellow)}.hint{font-size:13px;color:var(--muted);margin-top:8px}
+.upload{border:2px dashed #86d1bb;background:#f2fffa;border-radius:16px;padding:20px;text-align:center}.upload input{border:0}.preview{display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap;margin-top:10px}.preview img{width:90px;height:70px;object-fit:cover;border-radius:10px}.actions{display:grid;grid-template-columns:180px 1fr;gap:16px;margin-top:18px}.btn{border:0;border-radius:13px;padding:14px 18px;font:inherit;font-weight:900;cursor:pointer}.btn.secondary{background:#eef3f1;color:#40515e}.btn.primary{background:linear-gradient(90deg,#079f73,#13b982);color:#fff}.btn.danger{background:#fff1f2;color:#c93549}.status{margin-top:14px;padding:12px 14px;border-radius:10px;font-weight:800;display:none}.status.show{display:block}.status.ok{background:#eafaf3;color:#087552}.status.err{background:#fff0f1;color:#c83e4f}.status.info{background:#f1f6ff;color:#3f5b88}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:16px}.stat-card{background:#fff;border-radius:18px;padding:20px;box-shadow:var(--shadow);min-height:290px}.stat-card.full{grid-column:1/-1}.stat-title{font-weight:900;font-size:20px;margin-bottom:16px}.chart-area{height:210px;position:relative}.line-svg{width:100%;height:100%}.donut-wrap{display:flex;align-items:center;justify-content:center;gap:25px;flex-wrap:wrap}.donut{width:190px;height:190px;border-radius:50%;display:grid;place-items:center;position:relative}.donut:after{content:"";position:absolute;width:116px;height:116px;background:#fff;border-radius:50%}.donut-center{position:relative;z-index:2;text-align:center}.legend{min-width:210px}.legend-row{display:grid;grid-template-columns:14px 1fr auto;gap:8px;align-items:center;margin:8px 0}.dot{width:12px;height:12px;border-radius:50%}.rating-row{display:grid;grid-template-columns:50px 1fr 90px;gap:12px;align-items:center;margin:10px 0}.bar{height:12px;background:#edf1f3;border-radius:20px;overflow:hidden}.bar span{display:block;height:100%;border-radius:20px}.avg{display:flex;align-items:center;gap:24px;flex-wrap:wrap}.avg-ring{width:150px;height:150px;border-radius:50%;border:14px solid #d9f2e9;border-top-color:var(--green);display:grid;place-items:center}.avg-ring strong{font-size:42px}
+.admin-gate{max-width:520px;margin:10px auto 0;padding:28px;border:1px solid #e3ebe8;border-radius:18px;background:linear-gradient(180deg,#fbfefd,#f3faf7);box-shadow:0 8px 26px rgba(31,75,60,.08)}.admin-gate h2{margin:0 0 8px;text-align:center}.admin-gate .lock{font-size:44px;text-align:center;margin-bottom:8px}.admin-gate p{text-align:center;color:var(--muted);margin:0 0 18px}.admin-login{display:grid;grid-template-columns:1fr auto;gap:10px}.admin-login input{min-width:0}.admin-tools{display:none}.admin-tools.show{display:block}.admin-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px}.admin-badge{display:inline-flex;align-items:center;gap:7px;background:#e9faf3;color:#087552;border-radius:999px;padding:8px 12px;font-weight:900}.btn.logout{background:#eef3f1;color:#40515e}.table-wrap{overflow:auto;margin-top:16px}table{border-collapse:collapse;width:100%;min-width:900px}th,td{text-align:left;padding:11px 10px;border-bottom:1px solid #edf0ef;font-size:14px}th{background:#f7faf9;position:sticky;top:0}.mini{padding:7px 10px;border:0;border-radius:8px;font-weight:800;cursor:pointer}.mini.del{background:#fff0f1;color:#c63e4d}.export-panel{margin:0 0 18px;padding:18px;border:1px solid #e3ebe8;border-radius:16px;background:linear-gradient(180deg,#fafffd,#f3faf7)}.export-panel h3{margin:0 0 12px}.export-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.btn.export-data{background:#2865e8;color:#fff}.btn.export-stats{background:#8057e8;color:#fff}.export-note{margin-top:10px;color:var(--muted);font-size:13px}
+footer{text-align:center;color:#65717d;padding:26px 12px 40px}.busy{opacity:.65;pointer-events:none}
+@media(max-width:720px){.export-actions{grid-template-columns:1fr}.wrap{padding:0}.hero{border-radius:0}.tabs{border-radius:0}.card{border-radius:0;padding:18px}.grid,.stats{grid-template-columns:1fr}.actions{grid-template-columns:1fr}.stat-card.full{grid-column:auto}.tab{font-size:16px;padding:13px 4px}.star{font-size:42px}.admin-login{grid-template-columns:1fr}.admin-gate{margin:0;padding:22px 18px;border-radius:14px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero" aria-label="興嘉國小家長入班晨讀打卡系統">
+    <img src="banner.png" alt="興嘉國小家長入班晨讀打卡系統橫幅">
+  </header>
+
+  <nav class="tabs">
+    <button class="tab active" data-tab="checkin">📝 打卡<small>我要打卡</small></button>
+    <button class="tab" data-tab="stats">📊 統計<small>數據統計</small></button>
+    <button class="tab" data-tab="admin">⚙️ 管理<small>系統管理</small></button>
+  </nav>
+
+  <section id="checkin" class="panel active">
+    <div class="card">
+      <div class="grid">
+        <div class="field"><label>班級 <span class="req">*</span></label><input id="className" placeholder="例如：1年1班 或 101"></div>
+        <div class="field"><label>學生姓名 <span class="req">*</span></label><input id="studentName" placeholder="請輸入學生姓名"></div>
+        <div class="field"><label>家長姓名 <span class="req">*</span></label><input id="parentName" placeholder="請輸入家長姓名"></div>
+        <div class="field"><label>入班日期 <span class="req">*</span></label><input id="date" type="date"></div>
+        <div class="field full"><label>閱讀書籍 <span class="req">*</span></label><input id="book" placeholder="請輸入書名"></div>
+        <div class="field full"><label>給予本次晨讀評價 <span class="req">*</span></label><div class="stars" id="stars"></div><div class="hint" id="ratingHint">點擊星星評分（1–5星）</div></div>
+        <div class="field full"><label>回饋心得 <span class="req">*</span> <span style="color:#72808d">（簡短一句話）</span></label><textarea id="feedback" maxlength="100" placeholder="請用簡短一句話分享您的心得..."></textarea><div class="hint" style="text-align:right"><span id="count">0</span> / 100</div></div>
+        <div class="field full"><label>晨讀照片 <span style="color:#72808d">（選填，建議壓縮後上傳）</span></label><div class="upload"><input id="photo" type="file" accept="image/jpeg,image/png"><div class="hint">支援 JPG、PNG；單張不超過 5MB</div><div class="preview" id="preview"></div></div></div>
+      </div>
+      <div class="actions"><button class="btn secondary" id="resetBtn">重新整理資料</button><button class="btn primary" id="submitBtn">✈️ 送出打卡資料</button></div>
+      <div class="status info show" id="apiStatus">正在檢查系統連線…</div>
+      <div class="status" id="submitStatus"></div>
+    </div>
+  </section>
+
+  <section id="stats" class="panel">
+    <div class="stats">
+      <div class="stat-card"><div class="stat-title">🗓️ 每天入班人數趨勢</div><div class="chart-area" id="lineChart"></div></div>
+      <div class="stat-card"><div class="stat-title">🏫 各年級入班比例</div><div class="donut-wrap"><div class="donut" id="gradeDonut"><div class="donut-center"><strong id="totalCount">0</strong><div>總人次</div></div></div><div class="legend" id="gradeLegend"></div></div></div>
+      <div class="stat-card full"><div class="stat-title">⭐ 晨讀評價統計</div><div class="avg"><div style="flex:1;min-width:260px" id="ratingBars"></div><div class="avg-ring"><div><strong id="avgRating">0.0</strong><div style="text-align:center">平均評分</div></div></div></div></div>
+    </div>
+  </section>
+
+  <section id="admin" class="panel">
+    <div class="card">
+      <div id="adminGate" class="admin-gate">
+        <div class="lock">🔐</div>
+        <h2>管理員登入</h2>
+        <p>請輸入管理密碼後進入系統管理。</p>
+        <div class="admin-login">
+          <input id="adminKey" type="password" placeholder="請輸入管理密碼" autocomplete="current-password">
+          <button class="btn primary" id="adminLoginBtn" type="button">登入管理</button>
+        </div>
+        <div class="status" id="adminLoginStatus"></div>
+      </div>
+
+      <div id="adminTools" class="admin-tools">
+        <div class="admin-toolbar">
+          <div>
+            <h2 style="margin:0 0 6px">系統管理</h2>
+            <span class="admin-badge">✅ 管理員已登入</span>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button class="btn secondary" id="reloadAdmin" type="button">重新載入</button>
+            <button class="btn logout" id="adminLogoutBtn" type="button">登出</button>
+          </div>
+        </div>
+        <div class="export-panel">
+          <h3>📥 匯出資料與統計</h3>
+          <div class="export-actions">
+            <button class="btn export-data" id="exportDataBtn" type="button">📄 匯出完整打卡資料 CSV</button>
+            <button class="btn export-stats" id="exportStatsBtn" type="button">📊 匯出統計數據 CSV</button>
+          </div>
+          <div class="export-note">CSV 以 UTF-8 BOM 輸出，可直接用 Excel 開啟；只有登入後的管理者可以匯出。</div>
+        </div>
+        <div class="status" id="adminStatus"></div>
+        <div class="table-wrap"><table><thead><tr><th>日期</th><th>班級</th><th>學生</th><th>家長</th><th>書籍</th><th>評價</th><th>心得</th><th>照片</th><th>操作</th></tr></thead><tbody id="adminBody"></tbody></table></div>
+      </div>
+    </div>
+  </section>
+  <footer>感謝您的參與與陪伴，讓孩子在閱讀中成長茁壯！💛<br>© 2026 興嘉國小 家長入班晨讀打卡系統</footer>
+</div>
+
+<script>
+const API_URL='https://script.google.com/macros/s/AKfycbzagRlIzKJl8gJ2rrR7f_w8zK35pJ9rD29VYquSeInHtwmgdXhy4X87QDQUyxNXRKJ-/exec';
+let rating=0, photoPayload=null, statsCache=null, adminSessionKey='';
+const $=s=>document.querySelector(s); const $$=s=>[...document.querySelectorAll(s)];
+
+function setStatus(el,msg,type='info'){el.textContent=msg;el.className='status show '+type}
+function today(){const d=new Date();const off=d.getTimezoneOffset();return new Date(d.getTime()-off*60000).toISOString().slice(0,10)}
+$('#date').value=today();
+
+$$('.tab').forEach(btn=>btn.addEventListener('click',()=>{ $$('.tab').forEach(x=>x.classList.remove('active')); $$('.panel').forEach(x=>x.classList.remove('active')); btn.classList.add('active'); $('#'+btn.dataset.tab).classList.add('active'); if(btn.dataset.tab==='stats') loadStats(); }));
+
+for(let i=1;i<=5;i++){const s=document.createElement('span');s.className='star';s.textContent='★';s.dataset.value=i;s.onclick=()=>setRating(i);$('#stars').appendChild(s)}
+function setRating(v){rating=v;$$('.star').forEach(s=>s.classList.toggle('on',Number(s.dataset.value)<=v));$('#ratingHint').textContent='本次評分：'+v+' 星'}
+$('#feedback').addEventListener('input',e=>$('#count').textContent=e.target.value.length);
+$('#resetBtn').onclick=()=>{['className','studentName','parentName','book','feedback'].forEach(id=>$('#'+id).value='');$('#date').value=today();$('#photo').value='';$('#preview').innerHTML='';$('#count').textContent='0';photoPayload=null;setRating(0);$('#submitStatus').className='status'};
+
+$('#photo').addEventListener('change',async e=>{const f=e.target.files[0];photoPayload=null;$('#preview').innerHTML='';if(!f)return;if(f.size>5*1024*1024){setStatus($('#submitStatus'),'❌ 照片超過 5MB，請先壓縮','err');e.target.value='';return}const dataUrl=await readFile(f);photoPayload={dataUrl,mimeType:f.type||'image/jpeg',name:f.name};const img=document.createElement('img');img.src=dataUrl;const t=document.createElement('span');t.textContent=f.name;$('#preview').append(img,t)});
+function readFile(f){return new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=reject;r.readAsDataURL(f)})}
+
+function jsonpOnce(params, timeout=15000){return new Promise((resolve,reject)=>{const cb='__cb_'+Date.now()+'_'+Math.floor(Math.random()*1e6);const script=document.createElement('script');let settled=false;const timer=setTimeout(()=>cleanup(new Error('連線逾時')),timeout);function cleanup(err,data){if(settled)return;settled=true;clearTimeout(timer);try{delete window[cb]}catch(_){window[cb]=undefined}script.remove();err?reject(err):resolve(data)}window[cb]=data=>cleanup(null,data);script.onerror=()=>cleanup(new Error('JSONP 載入失敗'));const q=new URLSearchParams({...params,callback:cb,_:Date.now()});script.src=API_URL+'?'+q.toString();script.async=true;document.head.appendChild(script)})}
+async function jsonp(params, timeout=15000){try{return await jsonpOnce(params,timeout)}catch(first){await new Promise(r=>setTimeout(r,700));return jsonpOnce(params,timeout)}}
+
+async function ping(){try{const d=await jsonp({action:'ping'},10000);if(d&&d.ok)setStatus($('#apiStatus'),'✅ 系統連線正常','ok');else throw new Error(d?.message||'連線失敗')}catch(e){setStatus($('#apiStatus'),'❌ Apps Script 連線失敗：'+e.message,'err')}}
+ping();
+
+$('#submitBtn').onclick=async()=>{const data={action:'submit',date:$('#date').value,className:$('#className').value.trim(),studentName:$('#studentName').value.trim(),parentName:$('#parentName').value.trim(),book:$('#book').value.trim(),rating:String(rating),feedback:$('#feedback').value.trim(),photoBase64:photoPayload?.dataUrl||'',photoMimeType:photoPayload?.mimeType||'',photoName:photoPayload?.name||''};if(!data.date||!data.className||!data.studentName||!data.parentName||!data.book||!data.feedback||!rating){setStatus($('#submitStatus'),'❌ 請完成所有必填欄位與星等評分','err');return}const btn=$('#submitBtn');btn.classList.add('busy');setStatus($('#submitStatus'),'資料傳送中…','info');try{await fetch(API_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8'},body:new URLSearchParams(data)});setStatus($('#submitStatus'),'✅ 已送出打卡資料。因跨網域安全限制，前端不讀取 POST 回應；請稍候 2–3 秒後到統計頁確認。','ok');setTimeout(()=>{statsCache=null;loadStats()},2500)}catch(e){setStatus($('#submitStatus'),'❌ 傳送失敗：'+e.message,'err')}finally{btn.classList.remove('busy')}};
+
+async function loadStats(){const box=$('#lineChart');box.innerHTML='<div class="hint">載入統計中…</div>';try{const d=await jsonp({action:'stats'});if(!d.ok)throw new Error(d.message||'讀取失敗');statsCache=d;renderStats(d)}catch(e){box.innerHTML='<div class="status show err">❌ 統計載入失敗：'+e.message+'</div>'}}
+function renderStats(d){$('#totalCount').textContent=d.total||0;$('#avgRating').textContent=Number(d.averageRating||0).toFixed(1);const dates=(d.dateSeries||[]).filter(x=>/^\d{4}-\d{2}-\d{2}$/.test(String(x.date||'')));renderLine(dates);renderGrades(d.gradeSeries||[],d.total||0);renderRatings(d.ratingSeries||[],d.total||0)}
+function renderLine(series){const el=$('#lineChart');if(!series.length){el.innerHTML='<div class="hint">目前尚無資料</div>';return}const w=640,h=210,p=34,max=Math.max(1,...series.map(x=>x.count));const pts=series.map((x,i)=>{const xx=p+(w-p*2)*(i/(Math.max(1,series.length-1)));const yy=h-p-(h-p*2)*(x.count/max);return [xx,yy,x]});let svg=`<svg viewBox="0 0 ${w} ${h}" class="line-svg">`;for(let i=0;i<5;i++){const y=p+(h-p*2)*i/4;svg+=`<line x1="${p}" y1="${y}" x2="${w-p}" y2="${y}" stroke="#e6ece9"/>`}svg+=`<polyline fill="none" stroke="#10a978" stroke-width="4" points="${pts.map(p=>p[0]+','+p[1]).join(' ')}"/>`;pts.forEach(([x,y,o])=>{svg+=`<circle cx="${x}" cy="${y}" r="5" fill="#10a978"/><text x="${x}" y="${h-8}" font-size="11" text-anchor="middle" fill="#65717d">${o.date.slice(5)}</text>`});svg+='</svg>';el.innerHTML=svg}
+function renderGrades(series,total){
+  const colors=['#16b67f','#3289e8','#f4b51f','#a64ce0','#eb4d84','#9da7b0','#65c8b1'];
+  const order=['一年級','二年級','三年級','四年級','五年級','六年級','其他'];
+  const aliases={'1':'一年級','1年':'一年級','1年級':'一年級','一':'一年級','一年級':'一年級','2':'二年級','2年':'二年級','2年級':'二年級','二':'二年級','二年級':'二年級','3':'三年級','3年':'三年級','3年級':'三年級','三':'三年級','三年級':'三年級','4':'四年級','4年':'四年級','4年級':'四年級','四':'四年級','四年級':'四年級','5':'五年級','5年':'五年級','5年級':'五年級','五':'五年級','五年級':'五年級','6':'六年級','6年':'六年級','6年級':'六年級','六':'六年級','六年級':'六年級','其他':'其他'};
+  const counts=Object.fromEntries(order.map(k=>[k,0]));
+  (series||[]).forEach(x=>{
+    const raw=String(x?.name??'').trim();
+    const name=aliases[raw]||'其他';
+    counts[name]+=Number(x?.count||0);
+  });
+  const clean=order.map(name=>({name,count:counts[name]}));
+  const cleanTotal=clean.reduce((sum,x)=>sum+x.count,0);
+  const denominator=cleanTotal||Number(total)||0;
+  let angle=0,parts=[];
+  clean.forEach((x,i)=>{const pct=denominator?x.count/denominator*100:0;if(pct>0){parts.push(`${colors[i]} ${angle}% ${angle+pct}%`);angle+=pct}});
+  $('#gradeDonut').style.background=denominator&&parts.length?`conic-gradient(${parts.join(',')})`:'#edf2f0';
+  $('#gradeLegend').innerHTML=clean.map((x,i)=>`<div class="legend-row"><span class="dot" style="background:${colors[i]}"></span><span>${x.name}</span><strong>${denominator?Math.round(x.count/denominator*100):0}%</strong></div>`).join('');
+}
+function renderRatings(series,total){const colors={5:'#17b780',4:'#7ac943',3:'#ffbd2e',2:'#ff8a2a',1:'#ef3b3b'};const max=Math.max(1,...series.map(x=>x.count));$('#ratingBars').innerHTML=series.map(x=>`<div class="rating-row"><strong>${x.star}星</strong><div class="bar"><span style="width:${x.count/max*100}%;background:${colors[x.star]}"></span></div><span>${total?Math.round(x.count/total*100):0}% (${x.count})</span></div>`).join('')}
+
+async function adminLogin(){
+  const key=$('#adminKey').value.trim();
+  if(!key){setStatus($('#adminLoginStatus'),'❌ 請輸入管理密碼','err');return}
+  const btn=$('#adminLoginBtn');btn.classList.add('busy');setStatus($('#adminLoginStatus'),'驗證中…','info');
+  try{
+    const auth=await jsonp({action:'adminAuth',key});
+    if(!auth.ok)throw new Error(auth.message||'登入失敗');
+    adminSessionKey=key;
+    $('#adminGate').style.display='none';
+    $('#adminTools').classList.add('show');
+    $('#adminLoginStatus').className='status';
+    await loadAdminRows();
+  }catch(e){
+    adminSessionKey='';
+    setStatus($('#adminLoginStatus'),'❌ '+e.message,'err');
+  }finally{btn.classList.remove('busy')}
+}
+async function loadAdminRows(){
+  if(!adminSessionKey){adminLogout();return}
+  setStatus($('#adminStatus'),'載入中…','info');
+  try{
+    const d=await jsonp({action:'adminList',key:adminSessionKey});
+    if(!d.ok)throw new Error(d.message||'讀取失敗');
+    renderAdmin(d.rows||[]);
+    setStatus($('#adminStatus'),'✅ 已載入 '+(d.rows||[]).length+' 筆資料','ok');
+  }catch(e){
+    if(String(e.message||'').includes('管理密碼')){adminLogout();setStatus($('#adminLoginStatus'),'❌ 登入已失效，請重新登入','err');return}
+    setStatus($('#adminStatus'),'❌ '+e.message,'err');
+  }
+}
+function adminLogout(){
+  adminSessionKey='';
+  $('#adminKey').value='';
+  $('#adminBody').innerHTML='';
+  $('#adminTools').classList.remove('show');
+  $('#adminGate').style.display='block';
+  $('#adminStatus').className='status';
+}
+$('#adminLoginBtn').onclick=adminLogin;
+$('#adminKey').addEventListener('keydown',e=>{if(e.key==='Enter')adminLogin()});
+$('#reloadAdmin').onclick=loadAdminRows;
+$('#adminLogoutBtn').onclick=adminLogout;
+
+function csvCell(v){
+  const s=String(v??'').replace(/\r?\n/g,' ');
+  return /[",\n]/.test(s)?'"'+s.replace(/"/g,'""')+'"':s;
+}
+function downloadCsv(filename,rows){
+  const csv='\ufeff'+rows.map(r=>r.map(csvCell).join(',')).join('\r\n');
+  const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
+  const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+function exportStamp(){const d=new Date();return d.getFullYear()+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0')+'_'+String(d.getHours()).padStart(2,'0')+String(d.getMinutes()).padStart(2,'0')}
+async function exportAdminData(){
+  if(!adminSessionKey){adminLogout();return}
+  const btn=$('#exportDataBtn');btn.classList.add('busy');setStatus($('#adminStatus'),'正在準備完整資料…','info');
+  try{
+    const d=await jsonp({action:'adminExportData',key:adminSessionKey},20000);
+    if(!d.ok)throw new Error(d.message||'匯出失敗');
+    const rows=[['ID','建立時間','入班日期','班級','年級','學生姓名','家長姓名','閱讀書籍','評價','回饋心得','照片網址','照片檔名']];
+    (d.rows||[]).forEach(r=>rows.push([r.id,r.createdAt,r.date,r.className,r.grade,r.studentName,r.parentName,r.book,r.rating,r.feedback,r.photoUrl,r.photoName]));
+    downloadCsv('興嘉國小_家長入班晨讀_完整資料_'+exportStamp()+'.csv',rows);
+    setStatus($('#adminStatus'),'✅ 已匯出 '+(d.rows||[]).length+' 筆完整資料','ok');
+  }catch(e){setStatus($('#adminStatus'),'❌ 匯出資料失敗：'+e.message,'err')}finally{btn.classList.remove('busy')}
+}
+async function exportAdminStats(){
+  if(!adminSessionKey){adminLogout();return}
+  const btn=$('#exportStatsBtn');btn.classList.add('busy');setStatus($('#adminStatus'),'正在準備統計數據…','info');
+  try{
+    const d=await jsonp({action:'adminExportStats',key:adminSessionKey},20000);
+    if(!d.ok)throw new Error(d.message||'匯出失敗');
+    const rows=[['興嘉國小家長入班晨讀統計'],['匯出時間',new Date().toLocaleString('zh-TW')],['總打卡人次',d.total||0],['平均評分',Number(d.averageRating||0).toFixed(1)],[],['每日入班人數'],['日期','人次']];
+    (d.dateSeries||[]).forEach(x=>rows.push([x.date,x.count]));
+    rows.push([],['各年級入班統計'],['年級','人次','比例']);
+    (d.gradeSeries||[]).forEach(x=>rows.push([x.name,x.count,(d.total?Math.round(x.count/d.total*100):0)+'%']));
+    rows.push([],['晨讀評價統計'],['星等','人次','比例']);
+    (d.ratingSeries||[]).forEach(x=>rows.push([x.star+'星',x.count,(d.total?Math.round(x.count/d.total*100):0)+'%']));
+    downloadCsv('興嘉國小_家長入班晨讀_統計數據_'+exportStamp()+'.csv',rows);
+    setStatus($('#adminStatus'),'✅ 統計數據 CSV 已下載','ok');
+  }catch(e){setStatus($('#adminStatus'),'❌ 匯出統計失敗：'+e.message,'err')}finally{btn.classList.remove('busy')}
+}
+$('#exportDataBtn').onclick=exportAdminData;
+$('#exportStatsBtn').onclick=exportAdminStats;
+
+function renderAdmin(rows){$('#adminBody').innerHTML=rows.map(r=>`<tr><td>${esc(r.date)}</td><td>${esc(r.className)}</td><td>${esc(r.studentName)}</td><td>${esc(r.parentName)}</td><td>${esc(r.book)}</td><td>${esc(r.rating)}★</td><td>${esc(r.feedback)}</td><td>${r.photoUrl?`<a href="${attr(r.photoUrl)}" target="_blank">查看</a>`:''}</td><td><button class="mini del" onclick="deleteRow('${attr(r.id)}')">刪除</button></td></tr>`).join('')}
+async function deleteRow(id){
+  if(!adminSessionKey){adminLogout();return}
+  if(!confirm('確定刪除這筆資料？'))return;
+  try{
+    await fetch(API_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8'},body:new URLSearchParams({action:'adminDelete',key:adminSessionKey,id})});
+    setStatus($('#adminStatus'),'✅ 已送出刪除要求，稍候重新整理資料','ok');
+    setTimeout(loadAdminRows,1800);
+  }catch(e){setStatus($('#adminStatus'),'❌ 刪除失敗：'+e.message,'err')}
+}
+function esc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}function attr(v){return esc(v).replace(/`/g,'&#96;')}
+</script>
+</body>
+</html>
